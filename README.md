@@ -2,6 +2,22 @@
 
 ## Aquí se encuentra el desarrollo del trabajo de tesis captura de atributos discriminativos desarrollado en Python y algunas de sus librerías, así como algunos archivos que se utilizaran durante el proceso.
 
+## Herramientas
+
+Se muestra una lista con las Herramientas que son necesarias para este proyecto
+
+* Python
+  * Python 2.7 o 3.5
+  * Spyder
+* TextBlob
+  *   [install](http://textblob.readthedocs.io/en/dev/install.html)
+* Spicy
+  * [install Spicy](https://spacy.io/usage/#section-quickstart)
+  * [install Models](https://spacy.io/usage/models)
+  * Nota: con pip tiene problemas de instalacion, (utilizar sudo para instalar modelos) utilizar conda o bien el comando de abajo (solo python 3)
+  * ```{r, engine='bash', code_block_name} pip3 install spacy && python3 -m spacy download en```
+  * [Documentación](https://spacy.io/usage/linguistic-features)
+
 ### Resumen
 
 En la actualidad se han visto grandes avances tecnológicos, los cuales han motivado a mejorar la comunicación humano computadora es decir, que la máquina necesita procesar el lenguaje humano para tareas específicas, algunos ejemplos serian traductores de idioma, correctores de documentos, extracción de información relevante, búsquedas en internet con criterios específicos (buscar por idioma, fecha, relevancia, etc.) por mencionar algunos, se tiene una disciplina de Procesamiento del Lenguaje Natural (PLN) que combina la rama de la lingüística y la informática con el objetivo de modelar el lenguaje humano desde el punto de vista computacional.
