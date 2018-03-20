@@ -24,7 +24,7 @@ print (Word("hack").get_synsets(pos=VERB))
 You can access the definitions for each synset via the definitions property
 or the define() method, which can also take an optional part-of-speech argument.
 """
-
+print ("-----------------")
 print (Word("octopus").definitions)
 #['tentacles of octopus prepared as food', 'bottom-living cephalopod having a soft oval body with eight long tentacles']
 print (">Ejemplo banana")
@@ -34,6 +34,7 @@ print (Word("banana").definitions)
 """
 You can also create synsets directly.
 """
+print ("-----------------")
 from textblob.wordnet import Synset
 octopus = Synset('octopus.n.02')
 shrimp = Synset('shrimp.n.03')
