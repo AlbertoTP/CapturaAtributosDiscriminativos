@@ -24,6 +24,42 @@ def similarityWords(word1,word2):
     word1=Synset(str(word1)+'.n.01')
     word2=Synset(str(word2)+'.n.01')
     return word1.path_similarity(word2)
+
+def lemmalist(word):
+    """
+    Lemmatisation is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form
+    Input: word (string)
+    Return: lemma (dictionary)
+    """
+    syn_set = {}
+    #print "lemmasWord",word
+    cont=0
+    for synset in wn.synsets(word):
+        if cont<1:
+            for item in synset.lemma_names():
+                if not(syn_set.has_key(item)):
+                    syn_set[item]=1;
+            cont+=1
+        else:
+            break
+    #print syn_set
+    return syn_set
+    
+def allSynLemma(lista):
+    synonyms={}
+    if len(lista)!=0:
+        for element in lista:
+            #print ">>> ", element.lemma_names()
+            for i in element.lemma_names():
+                #print i
+                vec=i.split("_")
+                if len(vec)>1:
+                    for j in vec:
+                        if not(synonyms.has_key(j)):
+                            synonyms[j]=2;
+                elif not(synonyms.has_key(i)):
+                    synonyms[i]=2;
+    return synonyms
     
 def synonym(word):
     """
@@ -32,22 +68,26 @@ def synonym(word):
     Return: synonims (dictionary)
     """
     synonyms={}
+    #print "def synonym:", word
     palabras = wn.synset(str(word)+'.n.01')
-    #Agregar >>>>>exception<<<<
+    
+    #hypernyms
     lista=palabras.hypernyms()
-    for element in lista:
-        #print ">>> ",i.lemma_names()
-        for i in element.lemma_names():
-            #print i
-            vec=i.split("_")
-            if len(vec)>1:
-                for j in vec:
-                    if not(synonyms.has_key(j)):
-                        synonyms[j]=0;
-            elif not(synonyms.has_key(i)):
-                synonyms[i]=0;
-    #print palabras.hyponyms()
-    #print palabras.member_holonyms()
+    temp=allSynLemma(lista)
+    if len(temp)!=0:
+        synonyms.update(temp)
+    
+    #hyponyms
+    lista=palabras.hyponyms()
+    temp=allSynLemma(lista)
+    if len(temp)!=0:
+        synonyms.update(temp)
+    
+    #member_holonyms
+    lista=palabras.member_holonyms()
+    temp=allSynLemma(lista)
+    if len(temp)!=0:
+        synonyms.update(temp)
     return synonyms
 
 def featuresWord(word):
@@ -61,14 +101,24 @@ def featuresWord(word):
     lista=[]
     dic={}
     syn={}
+    #lemma={}
     for definition in definitions:
         #print definition
         lista=definition.split(' ')
         for palabra in lista:
             if palabra not in en_sw:
-                dic[palabra.lower()]=1
-                #syn=synonym(palabra.lower())
-                #dic.update(syn)
+                #Meaning of a word
+                palabra=Word(str(palabra).lower() )
+                palabra=palabra.lemmatize()
+                #Lemma of the word
+                #lemma=lemmalist(palabra)
+                #dic.update(lemma)
+                #print palabra
+                dic[palabra]=1
+    #Synonyms of the word
+    syn=synonym(str(word).lower())
+    #Update main dictionary
+    dic.update(syn)
     return dic
     
 def compareWorAtr(word,atri):
@@ -79,6 +129,7 @@ def compareWorAtr(word,atri):
     """
     features={}
     features=featuresWord(word)
+    #print "len:",len(features),"\nDicc:",features
     return features.has_key(atri)
 
 def main():
@@ -86,7 +137,7 @@ def main():
     #print compareWorAtr("apple","oval")
     #print featuresWord("apple")
     print compareWorAtr("apple","red")
-    print compareWorAtr("apple","blue")    
+    #print compareWorAtr("apple","blue")    
 
     print "Execution Time: ",time.time()-starting_point
     
