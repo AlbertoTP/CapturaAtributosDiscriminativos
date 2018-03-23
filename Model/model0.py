@@ -4,55 +4,71 @@
 """
 
 import extractTrain
+import extractAtrib
 import time
 import sys
 
-def meaningWord():
-    pass
 
-def isNegPos():
-    pass
 
 def main():
     starting_point = time.time()
     dicPos={}
     dicNeg={}
-    listWordsPos=[]
     dicPos,dicNeg=extractTrain.readFile("dataTrain/train.txt",dicPos,dicNeg) #diccionarios del train
-    dicPos,dicNeg=extractTrain.readFile("dataTrain/validation.txt",dicPos,dicNeg)
+#    dicPos1,dicNeg1=extractTrain.readFile("dataTrain/validation.txt",dicPos,dicNeg)
+#    dicPos.update(dicPos1)
+#    dicNeg.update(dicNeg1)
+    print "Diccionarios Train"
     print "elementos dicPos ",len(dicPos)
     print "elementos dicNeg ",len(dicNeg)
     
-    listWordsPos=dictoList(dicPos,listWordsPos)
-    
-    ruta="dataTest/test_triples.txt"
+    #path="dataTest/test_triples.txt"
+    path="dataTrain/validation.txt"
+    ruta="resultadosTest.txt"
     try:
-        file = open(ruta,"r")
+        file = open(path,"r")
+        result=open(ruta,"w")
     except IOError:
         print "There was an ERROR reading file"
         sys.exit()
     
     for linea in file.readlines():
         line=linea.rstrip('\n').split(",")
-        line=tuple(line)
+        #line=tuple(line)
         #print type(line)
-        #print line
+        #print line #('word1', 'word2', 'atrib')
+        #print line[0]," ",line[2]
         
-        w1aPos=dicPos.has_key(line[0],line[2])
-        w2aPos=dicPos.has_key(line[1],line[2])
-        w1aNeg=dicNeg.has_key(line[0],line[2])
-        w2aNeg=dicNeg.has_key(line[1],line[2])
-        w1a=isNegPos(line[0],line[2])
-        w2a=isNegPos(line[1],line[2])
-        
+        w1aPos=dicPos.has_key((line[0],line[2]))
+        w2aPos=dicPos.has_key((line[1],line[2]))
+        w1aNeg=dicNeg.has_key((line[0],line[2]))
+        w2aNeg=dicNeg.has_key((line[1],line[2]))
+        w1a=extractAtrib.compareWorAtr(line[0],line[2])
+        w2a=extractAtrib.compareWorAtr(line[1],line[2])
+
         if w1aNeg:
-            continue
-        elif ((w1aPos and w2aNeg) or (w1a and not(w2a)) ):
-            if not(w1aPos):
-                insertDicPos(line)
-        else:
-            if not(w1aNeg):
-                insertDicNeg(line)
+            dicNeg[line[0],line[2]].append(line[1])
+            result.write(str(line[0])+","+str(line[1])+","+str(line[2])+",0\n");
+        elif ((w1aPos and w2aNeg) or (w1aPos and not(w2a)) or (w1a and w2aNeg) or (w1a and not(w2a)) ):
+            #dictionary positive
+            if w1aPos:
+                dicPos[line[0],line[2]].append(line[1])
+            else:
+                dicPos[line[0],line[2]]=[line[1]]
+                if w2aNeg:
+                    dicNeg[line[1],line[2]].append(line[0])
+                else:
+                    dicNeg[line[1],line[2]]=[line[0]]
+            result.write(str(line[0])+","+str(line[1])+","+str(line[2])+",1\n");
+        else: #dictionary negative
+            dicNeg[line[0],line[2]]=[line[1]]
+            result.write(str(line[0])+","+str(line[1])+","+str(line[2])+",0\n");
+    file.close()
+    result.close()
+                
+    print "\nDiccionarios Train y Test"
+    print "elementos dicPos ",len(dicPos)
+    print "elementos dicNeg ",len(dicNeg)
         
 
     #print dicPos.keys()
