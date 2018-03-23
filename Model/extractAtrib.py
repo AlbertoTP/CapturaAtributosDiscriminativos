@@ -38,7 +38,7 @@ def lemmalist(word):
         if cont<1:
             for item in synset.lemma_names():
                 if not(syn_set.has_key(item)):
-                    syn_set[item]=1;
+                    syn_set[item]=2;
             cont+=1
         else:
             break
@@ -56,9 +56,9 @@ def allSynLemma(lista):
                 if len(vec)>1:
                     for j in vec:
                         if not(synonyms.has_key(j)):
-                            synonyms[j]=2;
+                            synonyms[j]=1;
                 elif not(synonyms.has_key(i)):
-                    synonyms[i]=2;
+                    synonyms[i]=1;
     return synonyms
     
 def synonym(word):
@@ -68,8 +68,17 @@ def synonym(word):
     Return: synonims (dictionary)
     """
     synonyms={}
-    #print "def synonym:", word
-    palabras = wn.synset(str(word)+'.n.01')
+    #print ">>>def synonym:", str(wn.morphy(word))
+    palabras=wn.synsets(str(wn.morphy(word)))
+    #print palabras
+    #print palabras[0]," \tType: ",type(palabras[0])
+    if len(palabras)==0:
+        return synonyms
+        
+    temp=str(palabras[0])
+    temp=temp[8:-2]
+    #print ">",temp
+    palabras = wn.synset(str(temp))
     
     #hypernyms
     lista=palabras.hypernyms()
@@ -113,8 +122,11 @@ def featuresWord(word):
                 #Lemma of the word
                 #lemma=lemmalist(palabra)
                 #dic.update(lemma)
+                #Synonyms
+                #syn=synonym(str(palabra))
+                #dic.update(syn)
                 #print palabra
-                dic[palabra]=1
+                dic[palabra]=0
     #Synonyms of the word
     syn=synonym(str(word).lower())
     #Update main dictionary
@@ -137,7 +149,7 @@ def main():
     #print compareWorAtr("apple","oval")
     #print featuresWord("apple")
     print compareWorAtr("apple","red")
-    #print compareWorAtr("apple","blue")    
+    #print compareWorAtr("apple","blue")
 
     print "Execution Time: ",time.time()-starting_point
     
