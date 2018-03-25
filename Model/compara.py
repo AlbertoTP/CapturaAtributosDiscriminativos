@@ -28,20 +28,40 @@ def readFile(ruta1,ruta2):
     Example:    word1,word2,feature,label(0/1)
     """
     linesPos,linesNeg=0,0
+    linesEP,linesEN=0,0
+    cont=0
     for linea0,linea1 in izip(file1.readlines(),file2.readlines()):
         line0=linea0.split(",")
         line1=linea1.split(",")
-        if line0[3]=="1\n":
-            print "0 >",line0
-            print "1 >",line1
-        if line0[3]==line1[3]:
+        
+        if line0[3]==line1[3]=="1\n":
             linesPos+=1
-        else:
+        elif line0[3]==line1[3]=="0\n":
             linesNeg+=1
-    print "Lineas Positivas ",linesPos
+        elif line0[3]=="0\n" and line1[3]=="1\n":
+            linesEN+=1
+        elif line0[3]=="1\n" and line1[3]=="0\n":
+            linesEP+=1
+        
+        if line0[3]!=line1[3]:
+            cont+=1
+            print cont,"\t0 >",line0
+            print "\t1 >",line1
+
+    print "\nLineas Positivas ",linesPos
     print "Lineas Negativas ",linesNeg
-    print "Total de lineas: ",linesPos+linesNeg
-    print " % bueno = ",linesPos/(linesPos+linesNeg*1.0)
+    print "Lineas Acertadas ",linesPos+linesNeg
+    print "Total de lineas: ",linesPos+linesNeg+linesEP+linesEN
+    print "% Total Acertado ", ((linesPos+linesNeg)/(linesPos+linesNeg+linesEP+linesEN*1.0))*100
+    
+    print "\nLineas Erroneas Pos (1,0) ",linesEP
+    print "Lineas Erroneas Neg (0,1) ",linesEN
+    print "lineas Erroneas total ",linesEP+linesEN
+    print "Lineas total Pos: ",linesPos+linesEP
+    print "lineas total Neg: ",linesNeg+linesEN
+    print "% Lineas Pos = ",linesPos/(linesPos+linesEP*1.0)*100
+    print "% Lineas Neg = ",linesNeg/(linesNeg+linesEN*1.0)*100
+    
     file1.close()
     file2.close()
 
