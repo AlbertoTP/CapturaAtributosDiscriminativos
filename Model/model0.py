@@ -15,9 +15,9 @@ def main():
     dicPos={}
     dicNeg={}
     dicPos,dicNeg=extractTrain.readFile("dataTrain/train.txt",dicPos,dicNeg) #diccionarios del train
-    dicPos1,dicNeg1=extractTrain.readFile("dataTrain/validation.txt",dicPos,dicNeg)
-    dicPos.update(dicPos1)
-    dicNeg.update(dicNeg1)
+#    dicPos1,dicNeg1=extractTrain.readFile("dataTrain/validation.txt",dicPos,dicNeg)
+#    dicPos.update(dicPos1)
+#    dicNeg.update(dicNeg1)
     print "Diccionarios Train"
     print "elementos dicPos ",len(dicPos)
     print "elementos dicNeg ",len(dicNeg)
@@ -46,29 +46,29 @@ def main():
         w1a=extractAtrib.compareWorAtr(line[0],line[2])
         w2a=extractAtrib.compareWorAtr(line[1],line[2])
 
-        if w1aNeg: #dictionary negative
-            dicNeg[line[0],line[2]].append(line[1])
+        if w1aNeg or (w1aPos and w2aPos): #dictionary negative
+            #dicNeg[line[0],line[2]].append(line[1])
             result.write(str(line[0])+","+str(line[1])+","+str(line[2])+",0\n");
         elif ((w1aPos and w2aNeg) or (w1aPos and not(w2a)) or (w1a and w2aNeg) or (w1a and not(w2a)) ):
             #dictionary positive
-            if w1aPos: #inserta w1 en dicPos
-                dicPos[line[0],line[2]].append(line[1])
-            else:
-                dicPos[line[0],line[2]]=[line[1]]
-            if w2aNeg: ##inserta w2 en dicNeg
-                dicNeg[line[1],line[2]].append(line[0])
-            else:
-                dicNeg[line[1],line[2]]=[line[0]]
+#            if w1aPos: #inserta w1 en dicPos
+#                dicPos[line[0],line[2]].append(line[1])
+#            else:
+#                dicPos[line[0],line[2]]=[line[1]]
+#            if w2aNeg: ##inserta w2 en dicNeg
+#                dicNeg[line[1],line[2]].append(line[0])
+#            else:
+#                dicNeg[line[1],line[2]]=[line[0]]
             result.write(str(line[0])+","+str(line[1])+","+str(line[2])+",1\n");
         else: #dictionary negative
-            dicNeg[line[0],line[2]]=[line[1]]
+            #dicNeg[line[0],line[2]]=[line[1]]
             result.write(str(line[0])+","+str(line[1])+","+str(line[2])+",0\n");
     file.close()
     result.close()
                 
-    print "\nDiccionarios Train y Test"
-    print "elementos dicPos ",len(dicPos)
-    print "elementos dicNeg ",len(dicNeg)
+#    print "\nDiccionarios Train y Test"
+#    print "elementos dicPos ",len(dicPos)
+#    print "elementos dicNeg ",len(dicNeg)
         
 
     #print dicPos.keys()
