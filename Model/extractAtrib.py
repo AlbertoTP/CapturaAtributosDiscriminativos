@@ -15,7 +15,7 @@ en_sw = set(sw.words('english'))
 
 def similarityWords(word1,word2):
     """
-    Similarity between two words
+    Similarity between two words with textblob
     Input: word1, word2 (String)
     Return: similarity (float)
     """
@@ -24,6 +24,8 @@ def similarityWords(word1,word2):
     word1=Synset(str(word1)+'.n.01')
     word2=Synset(str(word2)+'.n.01')
     return word1.path_similarity(word2)
+
+
 
 def lemmalist(word):
     """
@@ -45,6 +47,8 @@ def lemmalist(word):
     #print syn_set
     return syn_set
     
+    
+    
 def allSynLemma(lista):
     synonyms={}
     if len(lista)!=0:
@@ -56,9 +60,9 @@ def allSynLemma(lista):
                 if len(vec)>1:
                     for j in vec:
                         if not(synonyms.has_key(j)):
-                            synonyms[j]=1;
+                            synonyms[j]=3
                 elif not(synonyms.has_key(i)):
-                    synonyms[i]=1;
+                    synonyms[i]=3;
     return synonyms
     
 def synonym(word):
@@ -99,6 +103,34 @@ def synonym(word):
         synonyms.update(temp)
     return synonyms
 
+
+
+def wordDefinition(word):
+    """
+    The meaning of a word according to wordnet, remove stopwords
+    Input: word (String)
+    Return: (dictionary)
+    """
+    dic={}
+    definitions=list(Word(word).definitions)
+    #print definitions
+    if len(definitions)!=0:
+        lista=[]
+        dic={}
+        lista=definitions[0].split(' ')
+        for palabra in lista:
+            #print palabra
+            if palabra not in en_sw:
+                #Meaning of a word
+                palabra=Word(str(palabra).lower() )
+                palabra=palabra.lemmatize()
+                #print ">> ",palabra
+                #Insert in the dictionary
+                if not(dic.has_key(palabra)):
+                    dic[palabra]=1
+    #print dic
+    return dic
+
 def featuresWord(word):
     """
     The meaning of a word according to wordnet, remove stopwords and add synonyms (update dictionary with other dictionary)
@@ -112,25 +144,40 @@ def featuresWord(word):
     syn={}
     #lemma={}
     for definition in definitions:
-        #print definition
+        #print "> ",definition
         lista=definition.split(' ')
         for palabra in lista:
+            #print palabra
             if palabra not in en_sw:
-                #Meaning of a word
+                
+                #Meaning of a word (0)
                 palabra=Word(str(palabra).lower() )
                 palabra=palabra.lemmatize()
-                #Lemma of the word
-                #lemma=lemmalist(palabra)
-                #dic.update(lemma)
-                #Synonyms
+                #print ">> ",palabra,type(palabra)
+                #Insert in the dictionary
+                if not(dic.has_key(palabra)):
+                    dic[palabra]=0
+                
+                #Meaning of a word of the word (1)
+                dicDef=wordDefinition(str(palabra))
+                dic.update(dicDef)
+                
+                #Lemma of the word of the word (2)
+                lemma=lemmalist(palabra)
+                #print lemma
+                dic.update(lemma)
+                
+                #Synonyms of the word of the word (3)
                 #syn=synonym(str(palabra))
+                #print syn
                 #dic.update(syn)
-                #print palabra
-                dic[palabra]=0
-    #Synonyms of the word
+                
+    #Synonyms of the main word (3)
     syn=synonym(str(word).lower())
     #Update main dictionary
     dic.update(syn)
+    #print dic
+    #print "len ",len(dic)
     return dic
     
 def compareWorAtr(word,atri):
@@ -144,12 +191,14 @@ def compareWorAtr(word,atri):
     #print "len:",len(features),"\nDicc:",features
     return features.has_key(atri)
 
+
+
 def main():
     starting_point = time.time()
     #print compareWorAtr("apple","oval")
     #print featuresWord("apple")
-    print compareWorAtr("apple","red")
-    #print compareWorAtr("apple","blue")
+    print "1:apple-red ",compareWorAtr("apple","red")
+    print "2:apple-blue ",compareWorAtr("apple","blue")
 
     print "Execution Time: ",time.time()-starting_point
     
