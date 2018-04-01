@@ -10,8 +10,8 @@ from itertools import izip
 def readFile(ruta1,ruta2):
     """
     Read files, extract information (Word 1, word 2, Feature, value) line per line, compares the information
-    Input: rutas path of the file to be read
-    Return: 2 dictionaries diccPos and diccNeg
+    Input: rutas path of the file to be read (String)
+    Return: 2 dictionaries diccPos and diccNeg (dictionary)
     """
     try:
         file1 = open(ruta1,"r")
