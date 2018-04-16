@@ -6,25 +6,11 @@ import time
 import spacy
 nlp = spacy.load('en')
 from textblob import Word
-from textblob.wordnet import Synset
 from nltk.corpus import wordnet as wn
 from nltk.corpus import stopwords as sw
 #Stopwords in English
 en_sw = set(sw.words('english'))
 #print en_sw
-
-def similarityWords(word1,word2):
-    """
-    Similarity between two words with textblob
-    Input: word1, word2 (String)
-    Return: similarity (float)
-    """
-    #print Word(word1).lemmatize()
-    #print Word(word2).lemmatize()
-    word1=Synset(str(word1)+'.n.01')
-    word2=Synset(str(word2)+'.n.01')
-    return word1.path_similarity(word2)
-
 
 
 def lemmalist(word):
