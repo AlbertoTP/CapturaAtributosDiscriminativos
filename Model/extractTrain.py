@@ -32,7 +32,7 @@ def readFile(ruta,diccPos,diccNeg):
             diccNeg dictionary of candidate negative examples (dictionary)
     Return: 2 dictionaries diccPos and diccNeg (dictionary)
     """
-    print "\n>>> Archivo: ",ruta," extrayendo datos ..."
+    print "\n>>> Archivo(train): ",ruta," extrayendo datos ..."
     for i in range (0,2):
         #print ">>>",i
         try:
