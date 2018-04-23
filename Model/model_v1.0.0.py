@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@author: alternatif
+@author: Alberto
 """
 
 import time
@@ -9,7 +9,8 @@ import re
 import requests
 import spacy
 
-nlp = spacy.load('en')
+#nlp = spacy.load('en')
+nlp = spacy.load('en_core_web_lg')
 from textblob import Word
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet as wn
@@ -30,13 +31,13 @@ def readFile(ruta,diccPos,diccNeg):
             diccNeg dictionary of candidate negative examples (dictionary)
     Return: 2 dictionaries diccPos and diccNeg (dictionary)
     """
-    print "\n>>> Archivo(train): ",ruta," extrayendo datos ..."
+    print ("\n>>> Archivo(train): ",ruta," extrayendo datos ...")
     for i in range (0,2):
         #print ">>>",i
         try:
             file = open(ruta,"r")
         except IOError:
-            print "There was an ERROR reading file"
+            print ("There was an ERROR reading file")
             sys.exit()
         """
         Data format: 4 comma-separated fields:
@@ -83,7 +84,7 @@ def readFile(ruta,diccPos,diccNeg):
 
         #print "Elementos dicPos ",len(diccPos),"\nelementos dicNeg ",len(diccNeg),"\n"
         file.close()
-    print "lineas Pos: ",linePos,"\nlineas Neg: ",lineNeg,"\n"
+    print ("lineas Pos: ",linePos,"\nlineas Neg: ",lineNeg,"\n")
     return diccPos,diccNeg
     
 def lemmalist(word):
@@ -293,7 +294,6 @@ def search_word_dictionary(search):
                     dic.update(words_to_dictionary(search,words))
     return dic
             
-    
 def search_word_wiki(search):
     """
     Search a word in en.wikipedia.org
@@ -333,11 +333,27 @@ def compare_word_feature(word,atri):
     """
     features={}
     features=search_word_dictionary(word)
-    features.update(search_word_wiki(word))
+    #features.update(search_word_wiki(word))
     
     #print "len:",len(features),"\nDicc:",features
     return features.has_key((word,atri)),features
 
+
+def similaritySpyCy(word1,word2):        
+    """
+    Similarity between two words with Spicy
+    Input: word1, word2 (String)
+    Return: similarity (float)
+    """    
+    tokens = nlp(unicode(word1+" "+word2))
+    #print tokens
+    #print "Similarity Spacy:",tokens[0].similarity(tokens[1])
+    try:
+        if tokens[0].similarity(tokens[1])>0.5:
+            return True
+    except:
+        return False
+    return False
     
     
 
@@ -350,10 +366,10 @@ def main():
 #    dicPos1,dicNeg1=readFile("dataTrain/validation.txt",dicPos,dicNeg)
 #    dicPos.update(dicPos1)
 #    dicNeg.update(dicNeg1)
-    print "Diccionarios Train"
-    print "elementos dicPos ",len(dicPos)
-    print "elementos dicNeg ",len(dicNeg)
-    print "Espere ..."
+    print ("Diccionarios Train")
+    print ("elementos dicPos ",len(dicPos))
+    print ("elementos dicNeg ",len(dicNeg))
+    print ("Espere ...")
     
     path="dataTrain/validation.txt"
     #path="dataTest/test_triples.txt" #original file
@@ -362,7 +378,7 @@ def main():
         file = open(path,"r")
         result=open(ruta,"w")
     except IOError:
-        print "There was an ERROR reading file"
+        print ("There was an ERROR reading file")
         sys.exit()
     
     archivo=[]
@@ -374,10 +390,10 @@ def main():
         #print line[0]," ",line[2]
         archivo.append(line)
     file.close()
-    print "\n>>> Archivo(test): ",path
-    print "Numero de lineas",len(archivo)
+    print ("\n>>> Archivo(test): ",path)
+    print ("Numero de lineas",len(archivo))
     
-    print "\nClasificando (esto puede tomar tiempo) ...\n"
+    print ("\nClasificando (esto puede tomar tiempo) ...\n")
         
     for line in archivo:
         w1aPos=dicPos.has_key((line[0],line[2]))
@@ -391,12 +407,16 @@ def main():
             w1a,features=compare_word_feature(line[0],line[2])
             dicPos.update(features)
             dicWeb[line[0]]=1
+            if not(w1a):
+                w1a=similaritySpyCy(line[0],line[2])
         
         w2a=compareWorAtr(line[1],line[2])
         if not(w2a) and not(dicWeb.has_key(line[1])):
             w2a,features=compare_word_feature(line[1],line[2])
             dicPos.update(features)
             dicWeb[line[1]]=1
+            if not(w2a):
+                w2a=similaritySpyCy(line[1],line[2])
     
         if w1aNeg or (w1aPos and w2aPos): #dictionary negative
             #dicNeg[line[0],line[2]].append(line[1])
@@ -418,13 +438,13 @@ def main():
 
     result.close()
                 
-    print "\nDiccionarios Train y Test despues de clasificar"
-    print "elementos dicPos ",len(dicPos)
-    print "elementos dicNeg ",len(dicNeg)
+    print ("\nDiccionarios Train y Test despues de clasificar")
+    print ("elementos dicPos ",len(dicPos))
+    print ("elementos dicNeg ",len(dicNeg))
 
     #print dicPos.keys()
-    print "\nPuede revisar el archivo de resultados en: ",ruta
-    print "Execution Time: ",time.time()-starting_point
+    print ("\nPuede revisar el archivo de resultados en: ",ruta)
+    print ("Execution Time: ",time.time()-starting_point)
     
 if __name__ == "__main__":
     main()
