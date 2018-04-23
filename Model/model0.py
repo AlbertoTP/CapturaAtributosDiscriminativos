@@ -6,9 +6,9 @@
 import extractTrain
 import extractAtrib
 import extractAtribRequest
+import similitud
 import time
 import sys
-
 
 
 def main():
@@ -61,12 +61,16 @@ def main():
             w1a,features=extractAtribRequest.compare_word_feature(line[0],line[2])
             dicPos.update(features)
             dicWeb[line[0]]=1
+            if not(w1a):
+                w1a=similitud.similaritySpyCy(line[0],line[2])
         
         w2a=extractAtrib.compareWorAtr(line[1],line[2])
         if not(w2a) and not(dicWeb.has_key(line[1])):
             w2a,features=extractAtribRequest.compare_word_feature(line[1],line[2])
             dicPos.update(features)
             dicWeb[line[1]]=1
+            if not(w2a):
+                w2a=similitud.similaritySpyCy(line[1],line[2])
     
         if w1aNeg or (w1aPos and w2aPos): #dictionary negative
             #dicNeg[line[0],line[2]].append(line[1])
