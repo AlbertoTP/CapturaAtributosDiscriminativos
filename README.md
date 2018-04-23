@@ -14,7 +14,7 @@ Se muestra una lista con las Herramientas que son necesarias para este proyecto
     * Is a leading platform for building Python programs to work with human language data. It provides easy-to-use interfaces to over 50 corpora and lexical resources such as WordNet, along with a suite of text processing libraries for classification, tokenization, stemming, tagging, parsing, and semantic reasoning, wrappers for industrial-strength NLP libraries, and an active discussion forum.
     * [install](https://www.nltk.org/)
     * [Data and corpus](https://www.nltk.org/data.html)
-    * ```
+      ```
       import nltk
       nltk.download()
       ```
@@ -26,10 +26,10 @@ Se muestra una lista con las Herramientas que son necesarias para este proyecto
 * ## TextBlob
     * Is a Python (2 and 3) library for processing textual data. It provides a simple API for diving into common natural language processing (NLP) tasks such as part-of-speech tagging, noun phrase extraction, sentiment analysis, classification, translation, and more.
     * [install](http://textblob.readthedocs.io/en/dev/install.html)
-    * ```
+    ```
     pip install -U textblob
     python -m textblob.download_corpora
-      ```
+    ```
 
 
 * ## SpaCy
@@ -42,13 +42,11 @@ Se muestra una lista con las Herramientas que son necesarias para este proyecto
 * ## Wikipedia API
     * Is easy to use Python wrapper for Wikipedias’ API. It supports extracting texts, sections, links, categories, translations, etc from Wikipedia. 
     * [Documentación](http://wikipedia-api.readthedocs.io/en/latest/README.html)
-    * (only for python3
-    *  ```
-      pip3 install wikipedia-api
-      ```
+    * (only for python3)
+    * ```pip3 install wikipedia-api```
 
 * ## [Requests](http://docs.python-requests.org/en/master/user/quickstart/)
-    * ```
+      ```
       pip3 install requests
       ```
     * HTTP GET
