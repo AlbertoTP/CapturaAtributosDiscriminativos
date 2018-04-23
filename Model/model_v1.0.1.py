@@ -310,14 +310,21 @@ def search_word_dictionary(search):
     return dic
             
 def search_word_wiki(search):
+    """
+    Search a word in en.wikipedia.org
+    Input: search (string)
+    Return: dic (dictionary)
+    """
     dic={}
     page_py = wiki_wiki.page(search)
     if page_py.exists():
         level=0
         for s in page_py.sections:
-            words=s.text
+            cad=s.text
+            words=cad.split(' ')
+            if len(words)>0:
+                dic.update(words_to_dictionary(search,words))
             level+=1
-        dic.update(words_to_dictionary(search,words))
     return dic
     
 def compare_word_feature(word,atri):
