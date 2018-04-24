@@ -7,19 +7,19 @@ import time
 import sys
 import re
 import requests
-import spacy
 
+import spacy
 #nlp = spacy.load('en')
 nlp = spacy.load('en_vectors_web_lg')
 from textblob import Word
+
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet as wn
+#Stopwords in English
 from nltk.corpus import stopwords as sw
+en_sw = set(sw.words('english'))
 
 from bs4 import BeautifulSoup
-#Stopwords in English
-en_sw = set(sw.words('english'))
-#print en_sw
 
 #wikipedia in english
 import wikipediaapi
@@ -35,8 +35,8 @@ def readFile(ruta,diccPos,diccNeg):
     Return: 2 dictionaries diccPos and diccNeg (dictionary)
     """
     print ("\n>>> Archivo(train): ",ruta," extrayendo datos ...")
+    #two times, one for fill dictionaries and other for delete duplicate key
     for i in range (0,2):
-        #print ">>>",i
         try:
             file = open(ruta,"r")
         except IOError:
@@ -53,8 +53,7 @@ def readFile(ruta,diccPos,diccNeg):
         linePos,lineNeg=0,0
         for linea in file.readlines():
             line=linea.split(",")
-            #print line
-            if line[3]=='1\n':          #agrega a positivos
+            if line[3]=='1\n': #agrega a positivos
                 linePos+=1
                 #if diccPos.has_key((line[0],line[2])):
                 if ((line[0],line[2]) in diccPos):#python3
@@ -66,7 +65,7 @@ def readFile(ruta,diccPos,diccNeg):
                     diccNeg[line[1],line[2]].append(line[0])
                 else:
                     diccNeg[line[1],line[2]]=[line[0]]
-            else:            #agrega a negativos
+            else:  #agrega a negativos
                 lineNeg+=1
                 #if not(diccPos.has_key((line[0],line[2]))):
                 if not((line[0],line[2]) in diccPos):#python3
@@ -83,15 +82,11 @@ def readFile(ruta,diccPos,diccNeg):
         #Delete duplicate keys in dictionay negative
         #cont=0
         for key in diccPos:
-            #print "key ",key,type(key)
             #if diccNeg.has_key(key):
             if (key in diccNeg):#python3
                 del diccNeg[key]
-                #print "delete ",key
                 #cont+=1
         #print "Se descartaron ",cont," palabras"
-
-        #print "Elementos dicPos ",len(diccPos),"\nelementos dicNeg ",len(diccNeg),"\n"
         file.close()
     print ("lineas Pos: ",linePos,"\nlineas Neg: ",lineNeg,"\n")
     return diccPos,diccNeg
@@ -152,7 +147,6 @@ def synonym(word):
     #print ">>>def synonym:", str(wn.morphy(word))
     palabras=wn.synsets(str(wn.morphy(word)))
     #print palabras
-    #print palabras[0]," \tType: ",type(palabras[0])
     if len(palabras)==0:
         return synonyms
         
@@ -196,17 +190,14 @@ def wordDefinition(word):
         dic={}
         lista=definitions[0].split(' ')
         for palabra in lista:
-            #print palabra
             if palabra not in en_sw:
                 #Meaning of a word
                 palabra=Word(str(palabra).lower() )
                 palabra=palabra.lemmatize()
-                #print ">> ",palabra
                 #Insert in the dictionary
                 #if not(dic.has_key(palabra)):
                 if not(palabra in dic):#python3
                     dic[palabra]=1
-    #print dic
     return dic
     
 def compareWorAtr(word,atri):
@@ -217,22 +208,18 @@ def compareWorAtr(word,atri):
     return: (boolean)
     """    
     definitions=list(Word(word).definitions)
-    #print definitions
     lista=[]
     dic={}
     syn={}
     #lemma={}
     for definition in definitions:
-        #print "> ",definition
         lista=definition.split(' ')
         for palabra in lista:
-            #print palabra
             if palabra not in en_sw:
                 
                 #Meaning of a word (0)
                 palabra=Word(str(palabra).lower() )
                 palabra=palabra.lemmatize()
-                #print ">> ",palabra,type(palabra)
                 #Insert in the dictionary
                 #if not(dic.has_key(palabra)):
                 if not(palabra in dic):#python3
@@ -246,11 +233,6 @@ def compareWorAtr(word,atri):
                 lemma=lemmalist(palabra)
                 #print lemma
                 dic.update(lemma)
-                
-                #Synonyms of the word of the word (3)
-                #syn=synonym(str(palabra))
-                #print syn
-                #dic.update(syn)
                 
     #Synonyms of the main word (3)
     syn=synonym(str(word).lower())
@@ -268,12 +250,11 @@ def words_to_dictionary(search,words):
     """
     dic={}
     for word in words:
-        #print (word)
-        word=str(word.encode('ascii', 'ignore')).lower()
+        #word=str(word.encode('ascii', 'ignore')).lower()
+        word=str(word.lower())
         word=re.sub(r'[0-9]', '', word)
         word=re.sub('\W+','', word )
         if word not in en_sw:
-            #print (word)
             wordnet_lemmatizer = WordNetLemmatizer()
             word=wordnet_lemmatizer.lemmatize(word)
             #if not( dic.has_key(word) ): #python2
@@ -288,22 +269,17 @@ def search_word_dictionary(search):
     Input: search (string)
     Return: dic (dictionary)
     """
-    #print search
     dic={}
     r=requests.get("http://www.dictionary.com/browse/"+search)
     
     soup=BeautifulSoup(r.text, "html.parser")
     results=soup.find("div",{"class":"source-data"})
-    #print results
     if results != None:
-        all_info=results.findAll("section",{"class":"def-pbk ce-spot"})
-        #print (all_info)
-        
+        all_info=results.findAll("section",{"class":"def-pbk ce-spot"})        
         for item in all_info:
             line=item.findAll("div",{"class":"def-content"})
             for element in line:
                 cad=element.get_text()
-                #print (cad)
                 words=cad.split(' ')
                 if len(words)>0:
                     dic.update(words_to_dictionary(search,words))
@@ -404,29 +380,45 @@ def main():
 #        w2aPos=dicPos.has_key((line[1],line[2]))
 #        w1aNeg=dicNeg.has_key((line[0],line[2]))
 #        w2aNeg=dicNeg.has_key((line[1],line[2]))
-        w1aPos=((line[0],line[2]) in dicPos) #python2
+        w1aPos=((line[0],line[2]) in dicPos) #python3
         w2aPos=((line[1],line[2]) in dicPos)
         w1aNeg=((line[0],line[2]) in dicNeg)
         w2aNeg=((line[1],line[2]) in dicNeg)
         
         #Find the meaning of the word in a dictionary
-        w1a=compareWorAtr(line[0],line[2])
-        #if not(w1a) and not(dicWeb.has_key(line[0])):
-        if not(w1a) and not((line[0]) in dicWeb):#python3
-            w1a,features=compare_word_feature(line[0],line[2])
-            dicPos.update(features)
-            dicWeb[line[0]]=1
-            if not(w1a):
-                w1a=similaritySpyCy(line[0],line[2])
+        if not(w1aPos):
+            w1a=compareWorAtr(line[0],line[2])
+            #Search the word in WEB and update the variable and the dictionary
+            #if not(w1a) and not(dicWeb.has_key(line[0])):
+            if not(w1a) and not((line[0]) in dicWeb):#python3
+                w1a,features=compare_word_feature(line[0],line[2])
+                dicPos.update(features)
+                dicWeb[line[0]]=1
+                if not(w1a) and not((line[2]) in dicWeb):#python3
+                    w1a,features=compare_word_feature(line[2],line[0])
+                    dicPos.update(features)
+                    dicWeb[line[2]]=1
+                    if not(w1a):
+                        w1a=similaritySpyCy(line[0],line[2])
+        else:
+            w1a=True
         
-        w2a=compareWorAtr(line[1],line[2])
-        #if not(w2a) and not(dicWeb.has_key(line[1])):
-        if not(w2a) and not((line[1]) in dicWeb):#python3
-            w2a,features=compare_word_feature(line[1],line[2])
-            dicPos.update(features)
-            dicWeb[line[1]]=1
-            if not(w2a):
-                w2a=similaritySpyCy(line[1],line[2])
+        if not(w2aPos):
+            w2a=compareWorAtr(line[1],line[2])
+            #Search the word in WEB and update the variable and the dictionary
+            #if not(w2a) and not(dicWeb.has_key(line[1])):
+            if not(w2a) and not((line[1]) in dicWeb):#python3
+                w2a,features=compare_word_feature(line[1],line[2])
+                dicPos.update(features)
+                dicWeb[line[1]]=1
+                if not(w2a) and not(line[2] in dicWeb):
+                    w2a,features=compare_word_feature(line[1],line[2])
+                    dicPos.update(features)
+                    dicWeb[line[1]]=1
+                    if not(w2a):
+                        w2a=similaritySpyCy(line[1],line[2])
+        else:
+            w2a=True
     
         if w1aNeg or (w1aPos and w2aPos): #dictionary negative
             #dicNeg[line[0],line[2]].append(line[1])
