@@ -342,17 +342,17 @@ def main():
     dicPos={}
     dicNeg={}
     dicWeb={}
-    dicPos,dicNeg=readFile("dataTrain/train.txt",dicPos,dicNeg) #diccionarios del train
-#    dicPos1,dicNeg1=readFile("dataTrain/validation.txt",dicPos,dicNeg)
-#    dicPos.update(dicPos1)
-#    dicNeg.update(dicNeg1)
+#    dicPos,dicNeg=readFile("dataTrain/train.txt",dicPos,dicNeg) #diccionarios del train
+    dicPos1,dicNeg1=readFile("dataTrain/validation.txt",dicPos,dicNeg)
+    dicPos.update(dicPos1)
+    dicNeg.update(dicNeg1)
     print ("Diccionarios Train")
     print ("elementos dicPos ",len(dicPos))
     print ("elementos dicNeg ",len(dicNeg))
     print ("Espere ...")
     
-    path="dataTrain/validation.txt"
-    #path="dataTest/test_triples.txt" #original file
+    #path="dataTrain/validation.txt"
+    path="dataTest/test_triples.txt" #original file
     ruta="resultadosTest.txt"
     try:
         file = open(path,"r")
@@ -398,8 +398,8 @@ def main():
                     w1a,features=compare_word_feature(line[2],line[0])
                     dicPos.update(features)
                     dicWeb[line[2]]=1
-                    if not(w1a):
-                        w1a=similaritySpyCy(line[0],line[2])
+#                    if not(w1a):
+#                        w1a=similaritySpyCy(line[0],line[2])
         else:
             w1a=True
         
@@ -415,8 +415,8 @@ def main():
                     w2a,features=compare_word_feature(line[1],line[2])
                     dicPos.update(features)
                     dicWeb[line[1]]=1
-                    if not(w2a):
-                        w2a=similaritySpyCy(line[1],line[2])
+#                    if not(w2a):
+#                        w2a=similaritySpyCy(line[1],line[2])
         else:
             w2a=True
     
