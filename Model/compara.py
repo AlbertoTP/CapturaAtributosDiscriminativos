@@ -30,6 +30,7 @@ def readFile(ruta1,ruta2):
     linesPos,linesNeg=0,0
     linesEP,linesEN=0,0
     cont=0
+    #temp=""
     for linea0,linea1 in izip(file1.readlines(),file2.readlines()):
         line0=linea0.split(",")
         line1=linea1.split(",")
@@ -46,7 +47,9 @@ def readFile(ruta1,ruta2):
         if line0[3]!=line1[3]:
             cont+=1
             print cont,"\t0 >",line0
+            #temp+=linea0
             print "\t1 >",line1
+    #print temp
 
     print "\nLineas Positivas ",linesPos
     print "Lineas Negativas ",linesNeg
@@ -67,7 +70,8 @@ def readFile(ruta1,ruta2):
 
 def main():
     starting_point = time.time()
-    readFile("dataTrain/validation.txt","resultadosTest.txt")
+    readFile("dataTrain/validation.txt","resultadosValidation.txt")
+    #readFile("dataTrain/validation.txt","resultadosTest.txt")
     print "Execution Time: ",time.time()-starting_point
     
 if __name__ == "__main__":
