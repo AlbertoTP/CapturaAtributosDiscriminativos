@@ -9,7 +9,7 @@ from nltk.corpus import wordnet as wn
 import spacy
 #nlp = spacy.load('en')
 #nlp = spacy.load('en_core_web_lg')
-nlp = spacy.load('en_core_web_lg')
+nlp = spacy.load('en_vectors_web_lg')
 
 def similarityWordNet(word1,word2):
     """
@@ -46,9 +46,9 @@ def similarityWordNet(word1,word2):
     """
     similarity3 = wn.wup_similarity(word1, word2)
     
-    print "similarity1: ",similarity1
-    print "similarity2: ",similarity2
-    print "similarity3: ",similarity3
+    print ("similarity1: ",similarity1)
+    print ("similarity2: ",similarity2)
+    print ("similarity3: ",similarity3)
     
 def similaritySpyCy(word1,word2):        
     """
@@ -56,7 +56,7 @@ def similaritySpyCy(word1,word2):
     Input: word1, word2 (String)
     Return: similarity (float)
     """    
-    tokens = nlp(unicode(word1+" "+word2))
+    tokens = nlp( (word1+" "+word2))
     #print tokens
     #print "Similarity Spacy:",tokens[0].similarity(tokens[1])
     try:
@@ -72,23 +72,29 @@ def main():
     
     word1="sandwich"
     word2="lunch"
-    print "\nSimilarity between "+word1+" "+word2
+    print ("\nSimilarity between "+word1+" "+word2)
     similarityWordNet(word1,word2)
-    print "Similarity Spacy:",similaritySpyCy(word1,word2)
+    print ("Similarity Spacy:",similaritySpyCy(word1,word2))
+    
+    word1="sandwich"
+    word2="sandwich"
+    print ("\nSimilarity between "+word1+" "+word2)
+    print ("Similarity WordNet:",similarityWordNet(word1,word2))
+    print ("Similarity Spacy:",similaritySpyCy(word1,word2))
 
     word1="breakfast"
     word2="lunch"
-    print "\nSimilarity between "+word1+" "+word2
+    print ("\nSimilarity between "+word1+" "+word2)
     similarityWordNet(word1,word2)
-    print "Similarity Spacy:",similaritySpyCy(word1,word2)
+    print ("Similarity Spacy:",similaritySpyCy(word1,word2))
     
     word1="pig"
     word2="pink"
-    print "\nSimilarity between "+word1+" "+word2
+    print ("\nSimilarity between "+word1+" "+word2)
     similarityWordNet(word1,word2)
-    print "Similarity Spacy:",similaritySpyCy(word1,word2)
+    print ("Similarity Spacy:",similaritySpyCy(word1,word2))
     
-    print "\nExecution Time: ",time.time()-starting_point
+    print ("\nExecution Time: ",time.time()-starting_point)
     
 if __name__ == "__main__":
     main()

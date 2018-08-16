@@ -70,7 +70,8 @@ def readFile(ruta1,ruta2):
 
 def main():
     starting_point = time.time()
-    readFile("dataTrain/validation.txt","resultadosValidation.txt")
+    #readFile("dataTrain/validation.txt","resultadosValidation.txt")
+    readFile("dataTrain/validation.txt","resultados.txt")
     #readFile("dataTrain/validation.txt","resultadosTest.txt")
     print "Execution Time: ",time.time()-starting_point
     
