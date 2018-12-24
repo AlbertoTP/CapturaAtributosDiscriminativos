@@ -1,0 +1,79 @@
+>>>>>>>>>>>>>>>>resultados-nltk-path.txt
+
+Lineas Positivas  6
+Lineas Negativas  1357
+Lineas Acertadas  1363
+Total de lineas:  2722
+% Total Acertado  50.0734753857
+
+Lineas Erroneas Pos (1,0)  1358
+Lineas Erroneas Neg (0,1)  1
+lineas Erroneas total  1359
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  0.439882697947
+% Lineas Neg =  99.9263622975
+Execution Time:  0.271675109863 
+
+
+>>>>>>>>>>>>>>>>resultados-nltk-lch.txt
+Lineas Positivas  52
+Lineas Negativas  1318
+Lineas Acertadas  1370
+Total de lineas:  2722
+% Total Acertado  50.3306392359
+
+Lineas Erroneas Pos (1,0)  1312
+Lineas Erroneas Neg (0,1)  40
+lineas Erroneas total  1352
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  3.81231671554
+% Lineas Neg =  97.0544918999
+Execution Time:  0.280267953873
+
+
+>>>>>>>>>>>>>>>>resultados-nltk-wup.txt
+Lineas Positivas  0
+Lineas Negativas  1358
+Lineas Acertadas  1358
+Total de lineas:  2722
+% Total Acertado  49.8897869214
+
+Lineas Erroneas Pos (1,0)  1364
+Lineas Erroneas Neg (0,1)  0
+lineas Erroneas total  1364
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  0.0
+% Lineas Neg =  100.0
+Execution Time:  0.0642409324646
+
+
+>>>>>>>>>>>>>>>>resultados-nltk-res.txt
+Lineas Positivas  31
+Lineas Negativas  1341
+Lineas Acertadas  1372
+Total de lineas:  2722
+% Total Acertado  50.4041146216
+
+Lineas Erroneas Pos (1,0)  1333
+Lineas Erroneas Neg (0,1)  17
+lineas Erroneas total  1350
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  2.27272727273
+% Lineas Neg =  98.7481590574
+Execution Time:  0.277354955673
+
+
+>>>>>>>>>>>>>>>>
+
+
+>>>>>>>>>>>>>>>>
+
+
+>>>>>>>>>>>>>>>>
+
+
+>>>>>>>>>>>>>>>>

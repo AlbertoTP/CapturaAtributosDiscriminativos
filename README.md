@@ -26,10 +26,10 @@ Se muestra una lista con las Herramientas que son necesarias para este proyecto
 * ## TextBlob
     * Is a Python (2 and 3) library for processing textual data. It provides a simple API for diving into common natural language processing (NLP) tasks such as part-of-speech tagging, noun phrase extraction, sentiment analysis, classification, translation, and more.
     * [install](http://textblob.readthedocs.io/en/dev/install.html)
-    ```
-    pip install -U textblob
-    python -m textblob.download_corpora
-    ```
+      ```
+      pip install -U textblob
+      python -m textblob.download_corpora
+      ```
 
 
 * ## SpaCy
@@ -46,9 +46,7 @@ Se muestra una lista con las Herramientas que son necesarias para este proyecto
     * ```pip3 install wikipedia-api```
 
 * ## [Requests](http://docs.python-requests.org/en/master/user/quickstart/)
-      ```
-      pip3 install requests
-      ```
+    * ``` pip3 install requests ```
     * HTTP GET
 
 * ## [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
@@ -58,14 +56,6 @@ Se muestra una lista con las Herramientas que son necesarias para este proyecto
       pip3 install bs4
       ```
     * Parsing BeautifulSoup
-
-
-
-### Resumen
-
-En la actualidad se han visto grandes avances tecnológicos, los cuales han motivado a mejorar la comunicación humano computadora es decir, que la máquina necesita procesar el lenguaje humano para tareas específicas, algunos ejemplos serian traductores de idioma, correctores de documentos, extracción de información relevante, búsquedas en internet con criterios específicos (buscar por idioma, fecha, relevancia, etc.) por mencionar algunos, se tiene una disciplina de Procesamiento del Lenguaje Natural (PLN) que combina la rama de la lingüística y la informática con el objetivo de modelar el lenguaje humano desde el punto de vista computacional.
-Dentro de la rama de la lingüística se encuentra la disciplina de la semántica que estudia los significados de las palabras y de las expresiones más complejas. Hoy en día los modelos semánticos hacen un excelente trabajo para la detección de similitud semántica dentro del PLN. Sin embargo, muestran algunos errores ya que los modelos no pueden predecir las diferencias semánticas entre pares de palabras, para el caso de cappuccino, espresso y americano tienen un uso limitado los modelos semánticos, puesto que pueden decir que son similares entre si. Una posible solución a este problema es expresar las diferencias semánticas entre las palabras, al referirse a sus atributos que componen a cada palabra, por lo que una diferencia se puede expresar como la presencia o ausencia de un atributo en específico. Por ejemplo, una de las diferencias entre un narwhal (narval) y un dolphin (delfín) es la presencia del atributo horn (cuerno). Cabe mencionar que las palabras con las que se trabajará se tomarán en cuenta con su significado denotativo o denotación, es decir, el significado de la expresión tal cual se encuentra en el diccionario, no contextual. El no incluir las palabras con varios significados. Un ejemplo de lo anterior es para la palabra bow (weapon = arma), bow (curva, inclinación) and bow (ribbon = cinta, lazo, listón).
-**Entonces para cada par de palabras se verifica que la primera tenga relación con el atributo proporcionado, pero la segunda no tenga relación alguna con el atributo para agregarlo a __lista de ejemplos candidatos positivos.__** Un ejemplo de lo anterior seria **palabra1 airplane (avión), palabra2 helicopter (helicóptero) y atributo wings (alas), donde la palabra1 tiene relación con el atributo wings, pero no la palabra2,** ya que un helicóptero no tiene alas; en el caso de palabra1 helicopter, palabra2 airplane, atributo wings se tomará en otra lista, ya que la palabra1 no tiene relación con el atributo. **Para la __lista de ejemplos negativos__ se tomarán en cuenta los casos donde ambas palabras tengan relación con el atributo y donde las dos palabras no tienen relación alguna con el atributo,** para este último caso la cantidad de ejemplos es muy grande.
 
 
 ### Objetivos
