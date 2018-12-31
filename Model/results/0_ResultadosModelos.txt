@@ -67,7 +67,38 @@ lineas total Neg:  1358
 Execution Time:  0.277354955673
 
 
->>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>> sense2vec(300)
+Lineas Positivas  87
+Lineas Negativas  1297
+Lineas Acertadas  1384
+Total de lineas:  2722
+% Total Acertado  50.8449669361
+
+Lineas Erroneas Pos (1,0)  1277
+Lineas Erroneas Neg (0,1)  61
+lineas Erroneas total  1338
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  6.37829912023
+% Lineas Neg =  95.5081001473
+Execution Time:  0.0421459674835
+
+
+>>>>>>>>>>>>>>>> sense2vec(900)
+Lineas Positivas  131
+Lineas Negativas  1275
+Lineas Acertadas  1406
+Total de lineas:  2722
+% Total Acertado  51.6531961793
+
+Lineas Erroneas Pos (1,0)  1233
+Lineas Erroneas Neg (0,1)  83
+lineas Erroneas total  1316
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  9.60410557185
+% Lineas Neg =  93.8880706922
+Execution Time:  0.0421209335327
 
 
 >>>>>>>>>>>>>>>>
@@ -77,3 +108,7 @@ Execution Time:  0.277354955673
 
 
 >>>>>>>>>>>>>>>>
+
+
+>>>>>>>>>>>>>>>>
+
