@@ -112,7 +112,7 @@ def search_word_sense2vec(search):
     dic={}
     try:
         freq, vector = s2v[wsearch]
-        words, scores = s2v.most_similar(vector, n=300)
+        words, scores = s2v.most_similar(vector, n=900)
         for word, score in zip(words, scores):
             if (score > 0.5):
                 temp=word[0:-5]
