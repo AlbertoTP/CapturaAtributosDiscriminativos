@@ -1,4 +1,6 @@
 >>>>>>>>>>>>>>>>resultados-nltk-path.txt
+elementos dicPos  824
+elementos dicNeg  14563
 
 Lineas Positivas  6
 Lineas Negativas  1357
@@ -17,6 +19,9 @@ Execution Time:  0.271675109863
 
 
 >>>>>>>>>>>>>>>>resultados-nltk-lch.txt
+elementos dicPos  889
+elementos dicNeg  14638
+
 Lineas Positivas  52
 Lineas Negativas  1318
 Lineas Acertadas  1370
@@ -34,6 +39,9 @@ Execution Time:  0.280267953873
 
 
 >>>>>>>>>>>>>>>>resultados-nltk-wup.txt
+elementos dicPos  817
+elementos dicNeg  14556
+
 Lineas Positivas  0
 Lineas Negativas  1358
 Lineas Acertadas  1358
@@ -51,6 +59,9 @@ Execution Time:  0.0642409324646
 
 
 >>>>>>>>>>>>>>>>resultados-nltk-res.txt
+elementos dicPos  864
+elementos dicNeg  14600
+
 Lineas Positivas  31
 Lineas Negativas  1341
 Lineas Acertadas  1372
@@ -68,6 +79,9 @@ Execution Time:  0.277354955673
 
 
 >>>>>>>>>>>>>>>> sense2vec(300)
+elementos dicPos  340938
+elementos dicNeg  14695
+
 Lineas Positivas  87
 Lineas Negativas  1297
 Lineas Acertadas  1384
@@ -85,6 +99,9 @@ Execution Time:  0.0421459674835
 
 
 >>>>>>>>>>>>>>>> sense2vec(900)
+elementos dicPos  1003401
+elementos dicNeg  14758
+
 Lineas Positivas  131
 Lineas Negativas  1275
 Lineas Acertadas  1406
@@ -101,14 +118,139 @@ lineas total Neg:  1358
 Execution Time:  0.0421209335327
 
 
->>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>> resultados-m-syn.txt
+Diccionarios Train y Test despues de clasificar
+elementos dicPos  1043
+elementos dicNeg  14875
+
+Lineas Positivas  248
+Lineas Negativas  1234
+Lineas Acertadas  1482
+Total de lineas:  2722
+% Total Acertado  54.4452608376
+
+Lineas Erroneas Pos (1,0)  1116
+Lineas Erroneas Neg (0,1)  124
+lineas Erroneas total  1240
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  18.1818181818
+% Lineas Neg =  90.8689248895
+Execution Time:  0.0365159511566
 
 
->>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>> resultados-m-hype.txt (syn + hype)
+Diccionarios Train y Test despues de clasificar
+elementos dicPos  1063
+elementos dicNeg  14888
+
+Lineas Positivas  259
+Lineas Negativas  1224
+Lineas Acertadas  1483
+Total de lineas:  2722
+% Total Acertado  54.4819985305
+
+Lineas Erroneas Pos (1,0)  1105
+Lineas Erroneas Neg (0,1)  134
+lineas Erroneas total  1239
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  18.9882697947
+% Lineas Neg =  90.1325478645
+Execution Time:  0.0440590381622
 
 
->>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>> resultados-m-hypo.txt (syn + hypo)
+elementos dicPos  1080
+elementos dicNeg  14922
+
+Lineas Positivas  287
+Lineas Negativas  1222
+Lineas Acertadas  1509
+Total de lineas:  2722
+% Total Acertado  55.4371785452
+
+Lineas Erroneas Pos (1,0)  1077
+Lineas Erroneas Neg (0,1)  136
+lineas Erroneas total  1213
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  21.0410557185
+% Lineas Neg =  89.9852724595
+Execution Time:  0.0384948253632
 
 
->>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>> resultados-m-hypo.txt (syn + holo)
+elementos dicPos  1046
+elementos dicNeg  14877
+
+Lineas Positivas  250
+Lineas Negativas  1234
+Lineas Acertadas  1484
+Total de lineas:  2722
+% Total Acertado  54.5187362234
+
+Lineas Erroneas Pos (1,0)  1114
+Lineas Erroneas Neg (0,1)  124
+lineas Erroneas total  1238
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  18.3284457478
+% Lineas Neg =  90.8689248895
+Execution Time:  0.0331859588623
+
+
+>>>>>>>>>>>>>>>> resultados-m-hypo.txt (syn + hype + hypo + holo)
+elementos dicPos  1100
+elementos dicNeg  14932
+
+Lineas Positivas  297
+Lineas Negativas  1214
+Lineas Acertadas  1511
+Total de lineas:  2722
+% Total Acertado  55.5106539309
+
+Lineas Erroneas Pos (1,0)  1067
+Lineas Erroneas Neg (0,1)  144
+lineas Erroneas total  1211
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  21.7741935484
+% Lineas Neg =  89.3961708395
+Execution Time:  0.0226898193359
+
+
+>>>>>>>>>>>>>>>> resultados-spacy.txt
+elementos dicPos  1018
+elementos dicNeg  14791
+
+Lineas Positivas  175
+Lineas Negativas  1279
+Lineas Acertadas  1454
+Total de lineas:  2722
+% Total Acertado  53.4166054372
+
+Lineas Erroneas Pos (1,0)  1189
+Lineas Erroneas Neg (0,1)  79
+lineas Erroneas total  1268
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  12.8299120235
+% Lineas Neg =  94.1826215022
+Execution Time:  0.122111082077
+
+
+>>>>>>>>>>>>>>>> 
+
+
+>>>>>>>>>>>>>>>> 
+
+
+>>>>>>>>>>>>>>>> 
+
+
+>>>>>>>>>>>>>>>> 
+
+
+>>>>>>>>>>>>>>>> 
 

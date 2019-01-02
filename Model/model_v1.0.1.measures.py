@@ -149,22 +149,22 @@ def synonym(word):
     palabras = wn.synset(str(temp))
 
     #hypernyms
-#    lista=palabras.hypernyms()
-#    temp=allSynLemma(lista)
-#    if len(temp)!=0:
-#        synonyms.update(temp)
+    lista=palabras.hypernyms()
+    temp=allSynLemma(lista)
+    if len(temp)!=0:
+        synonyms.update(temp)
 
     #hyponyms
-#    lista=palabras.hyponyms()
-#    temp=allSynLemma(lista)
-#    if len(temp)!=0:
-#        synonyms.update(temp)
+    lista=palabras.hyponyms()
+    temp=allSynLemma(lista)
+    if len(temp)!=0:
+        synonyms.update(temp)
 
     #member_holonyms
-#    lista=palabras.member_holonyms()
-#    temp=allSynLemma(lista)
-#    if len(temp)!=0:
-#        synonyms.update(temp)
+    lista=palabras.member_holonyms()
+    temp=allSynLemma(lista)
+    if len(temp)!=0:
+        synonyms.update(temp)
     return synonyms
 
 
@@ -230,13 +230,13 @@ def compareWorAtr(word,atri):
                     dic[palabra]=0
 
                 #Meaning of a word of the word (1)
-#                dicDef=wordDefinition(str(palabra))
-#                dic.update(dicDef)
+                dicDef=wordDefinition(str(palabra))
+                dic.update(dicDef)
 
                 #Lemma of the word of the word (2)
-#                lemma=lemmalist(palabra)
+                lemma=lemmalist(palabra)
                 #print lemma
-#                dic.update(lemma)
+                dic.update(lemma)
 
     #Synonyms of the main word (3)
     syn=synonym(str(word).lower())
@@ -261,7 +261,7 @@ def main():
 
     path="dataTrain/validation.txt"
     #path="dataTest/test_triples.txt" #original file
-    ruta="resultados-m-syn.txt"
+    ruta="resultados-m-hhh.txt"
     try:
         file = open(path,"r")
         result=open(ruta,"w")
