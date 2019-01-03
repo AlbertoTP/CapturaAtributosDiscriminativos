@@ -1,2 +1,3 @@
 *.pyc
 Model/*.pyc
+Model/WikiData

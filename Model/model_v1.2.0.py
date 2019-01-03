@@ -237,7 +237,7 @@ def compareWorAtr(word,atri):
             if palabra not in en_sw:
 
                 #Meaning of a word (0)
-                #palabra=lemmatize_word(palabra)
+                palabra=lemmatize_word(palabra)
                 #Insert in the dictionary
                 if not(palabra in dic):
                     dic[palabra]=0
@@ -436,9 +436,13 @@ def main():
     print ("\nClasificando (esto puede tomar tiempo) ...\n")
 
     for line in archivo:
+        temp0=line[0]
+        temp1=line[1]
+        temp2=line[2]
         line[0]=lemmatize_word(line[0])
         line[1]=lemmatize_word(line[1])
         line[2]=lemmatize_word(line[2])
+        
         w1aPos=((line[0],line[2]) in dicPos)
         w2aPos=((line[1],line[2]) in dicPos)
         w1aNeg=((line[0],line[2]) in dicNeg)
@@ -479,17 +483,17 @@ def main():
 
         if w1aNeg or (w1aPos and w2aPos): #dictionary negative
             #dicNeg[line[0],line[2]].append(line[1])
-            result.write(str(line[0])+","+str(line[1])+","+str(line[2])+",0\n");
+            result.write(str(temp0)+","+str(temp1)+","+str(temp2)+",0\n");
         elif ((w1aPos and w2aNeg) or (w1aPos and not(w2a)) or (w1a and w2aNeg) or (w1a and not(w2a)) ):
             #dictionary positive
             if not(w1aPos): #inserta w1 en dicPos
                 dicPos[line[0],line[2]]=[line[1]]
             if not(w2aNeg): ##inserta w2 en dicNeg
                 dicNeg[line[1],line[2]]=[line[0]]
-            result.write(str(line[0])+","+str(line[1])+","+str(line[2])+",1\n");
+            result.write(str(temp0)+","+str(temp1)+","+str(temp2)+",1\n");
         else: #dictionary negative
             #dicNeg[line[0],line[2]]=[line[1]]
-            result.write(str(line[0])+","+str(line[1])+","+str(line[2])+",0\n");
+            result.write(str(temp0)+","+str(temp1)+","+str(temp2)+",0\n");
 
     result.close()
 

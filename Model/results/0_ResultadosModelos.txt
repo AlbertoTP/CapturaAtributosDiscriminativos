@@ -240,10 +240,48 @@ lineas total Neg:  1358
 Execution Time:  0.122111082077
 
 
->>>>>>>>>>>>>>>> 
+>>>>>>>>>>>>>>>> resultados-M1.2.0 (1° run)
+elementos dicPos  1572806
+elementos dicNeg  15072
+Puede revisar el archivo de resultados en:  resultados-M1.2.0.txt
+Execution Time:  3789.095680952072
+
+Lineas Positivas  448
+Lineas Negativas  1235
+Lineas Acertadas  1683
+Total de lineas:  2722
+% Total Acertado  61.8295371051
+
+Lineas Erroneas Pos (1,0)  916
+Lineas Erroneas Neg (0,1)  123
+lineas Erroneas total  1039
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  32.8445747801
+% Lineas Neg =  90.942562592
+Execution Time:  0.0309150218964
 
 
->>>>>>>>>>>>>>>> 
+>>>>>>>>>>>>>>>> resultados-M1.2.0 (2° run)
+elementos dicPos  1384866
+elementos dicNeg  15227
+Puede revisar el archivo de resultados en:  resultados-M1.2.0.txt
+Execution Time:  3218.166814804077
+
+Lineas Positivas  577
+Lineas Negativas  1171
+Lineas Acertadas  1748
+Total de lineas:  2722
+% Total Acertado  64.2174871418
+
+Lineas Erroneas Pos (1,0)  787
+Lineas Erroneas Neg (0,1)  187
+lineas Erroneas total  974
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  42.3020527859
+% Lineas Neg =  86.2297496318
+Execution Time:  0.0493171215057
 
 
 >>>>>>>>>>>>>>>> 
