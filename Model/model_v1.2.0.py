@@ -413,7 +413,7 @@ def main():
 
     path="dataTrain/validation.txt"
     #path="dataTest/test_triples.txt" #original file
-    ruta="resultados-M1.2.0.txt"
+    ruta="resultados-M1.2.1.txt"
     try:
         file = open(path,"r")
         result=open(ruta,"w")

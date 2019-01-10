@@ -284,11 +284,98 @@ lineas total Neg:  1358
 Execution Time:  0.0493171215057
 
 
->>>>>>>>>>>>>>>> 
+>>>>>>>>>>>>>>>> resultados-M1.2.0.p0.txt (only sense2vec 900)
+elementos dicPos  925006
+elementos dicNeg  15169
+Puede revisar el archivo de resultados en:  resultados-M1.2.0.p0.txt
+Execution Time:  277.74607396125793
+
+Lineas Positivas  492
+Lineas Negativas  1172
+Lineas Acertadas  1664
+Total de lineas:  2722
+% Total Acertado  61.1315209405
+
+Lineas Erroneas Pos (1,0)  872
+Lineas Erroneas Neg (0,1)  186
+lineas Erroneas total  1058
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  36.0703812317
+% Lineas Neg =  86.3033873343
+Execution Time:  0.0443780422211
+
+
+>>>>>>>>>>>>>>>> resultados-M1.2.0.p0.txt (only sense2vec 1500)
+elementos dicPos  1502086
+elementos dicNeg  15166
+
+Puede revisar el archivo de resultados en:  resultados-M1.2.0.p0.txt
+Execution Time:  265.0975580215454
+Lineas Positivas  502
+Lineas Negativas  1175
+Lineas Acertadas  1677
+Total de lineas:  2722
+% Total Acertado  61.6091109478
+
+Lineas Erroneas Pos (1,0)  862
+Lineas Erroneas Neg (0,1)  183
+lineas Erroneas total  1045
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  36.8035190616
+% Lineas Neg =  86.5243004418
+Execution Time:  0.0864260196686
+
+
+>>>>>>>>>>>>>>>> resultados-M1.2.0.s2v1500.txt (sense2vec 1500)
+Diccionarios Train y Test despues de clasificar                                       
+elementos dicPos  1947309                                                             
+elementos dicNeg  15207                                                                
+Puede revisar el archivo de resultados en:  resultados-M1.2.0.txt                      
+Execution Time:  3460.660232782364
+
+Lineas Positivas  560
+Lineas Negativas  1175
+Lineas Acertadas  1735
+Total de lineas:  2722
+% Total Acertado  63.7398971345
+
+Lineas Erroneas Pos (1,0)  804
+Lineas Erroneas Neg (0,1)  183
+lineas Erroneas total  987
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  41.0557184751
+% Lineas Neg =  86.5243004418
+Execution Time:  0.0526950359344
+
+
+>>>>>>>>>>>>>>>> resultados-M1.3.0.txt
+Diccionarios Train y Test despues de clasificar
+elementos dicPos  1384979
+elementos dicNeg  15227
+Puede revisar el archivo de resultados en:  resultados-M1.3.0.txt
+Execution Time:  3067.702399969101
+
+Lineas Positivas  577
+Lineas Negativas  1171
+Lineas Acertadas  1748
+Total de lineas:  2722
+% Total Acertado  64.2174871418
+
+Lineas Erroneas Pos (1,0)  787
+Lineas Erroneas Neg (0,1)  187
+lineas Erroneas total  974
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  42.3020527859
+% Lineas Neg =  86.2297496318
+Execution Time:  0.0344460010529
 
 
 >>>>>>>>>>>>>>>> 
 
 
->>>>>>>>>>>>>>>> 
+>>>>>>>>>>>>>>>>
 

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Apr 21 00:57:41 2018
-
 @author: alternatif
 """
 search="sandwich"

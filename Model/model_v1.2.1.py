@@ -11,6 +11,9 @@ import requests
 import spacy
 #nlp = spacy.load('en')
 nlp = spacy.load('en_vectors_web_lg')
+from spacy.lemmatizer import Lemmatizer
+from spacy.lang.en import LEMMA_INDEX, LEMMA_EXC, LEMMA_RULES
+
 from textblob import Word
 
 from nltk.stem import WordNetLemmatizer
@@ -24,6 +27,10 @@ from bs4 import BeautifulSoup
 #wikipedia in english
 import wikipediaapi
 wiki_wiki = wikipediaapi.Wikipedia('en')
+
+#Sense2vec
+import sense2vec
+s2v = sense2vec.load('/usr/local/lib/python3.5/dist-packages/sense2vec/reddit_vectors-1.1.0/')
 
 
 def readFile(ruta,diccPos,diccNeg):
@@ -78,7 +85,7 @@ def readFile(ruta,diccPos,diccNeg):
                     #if not(diccPos.has_key((line[1],line[2]))):
                     if not((line[1],line[2]) in diccPos):#python3
                         diccPos[line[1],line[2]]=[line[0]]
-        
+
         #Delete duplicate keys in dictionay negative
         #cont=0
         for key in diccPos:
@@ -90,7 +97,7 @@ def readFile(ruta,diccPos,diccNeg):
         file.close()
     print ("lineas Pos: ",linePos,"\nlineas Neg: ",lineNeg,"\n")
     return diccPos,diccNeg
-    
+
 def lemmalist(word):
     """
     Lemmatisation is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form
@@ -103,17 +110,16 @@ def lemmalist(word):
     for synset in wn.synsets(word):
         if cont<1:
             for item in synset.lemma_names():
-                #if not(syn_set.has_key(item)):
-                if not(item in syn_set):#python3
+                if not(item in syn_set):
                     syn_set[item]=2;
             cont+=1
         else:
             break
     #print syn_set
     return syn_set
-    
-    
-    
+
+
+
 def allSynLemma(lista):
     """
     Separates a list and insert each word in a dictionary, also it separtes compoun word (word_1 = word,1)
@@ -136,7 +142,7 @@ def allSynLemma(lista):
                 elif not(i in synonyms):#python3
                     synonyms[i]=3;
     return synonyms
-    
+
 def synonym(word):
     """
     first synonyms, hypernyms, hyponyms and member_holonyms of the one word
@@ -149,24 +155,24 @@ def synonym(word):
     #print palabras
     if len(palabras)==0:
         return synonyms
-        
+
     temp=str(palabras[0])
     temp=temp[8:-2]
     #print ">",temp
     palabras = wn.synset(str(temp))
-    
+
     #hypernyms
     lista=palabras.hypernyms()
     temp=allSynLemma(lista)
     if len(temp)!=0:
         synonyms.update(temp)
-    
+
     #hyponyms
     lista=palabras.hyponyms()
     temp=allSynLemma(lista)
     if len(temp)!=0:
         synonyms.update(temp)
-    
+
     #member_holonyms
     lista=palabras.member_holonyms()
     temp=allSynLemma(lista)
@@ -192,21 +198,34 @@ def wordDefinition(word):
         for palabra in lista:
             if palabra not in en_sw:
                 #Meaning of a word
-                palabra=Word(str(palabra).lower() )
-                palabra=palabra.lemmatize()
+                palabra=lemmatize_word(palabra)
                 #Insert in the dictionary
-                #if not(dic.has_key(palabra)):
-                if not(palabra in dic):#python3
+                if not(palabra in dic):
                     dic[palabra]=1
     return dic
-    
+
+def lemmatize_word(word):
+    """
+    Assign the base form of words
+    Input: word (plural, capital letters)
+    return: word (singular, lower letters)
+    """
+    palabra=word
+    palabra=Word(str(palabra).lower() )
+    palabra=palabra.lemmatize()
+    if palabra==word:
+        lemmatizer = Lemmatizer(LEMMA_INDEX, LEMMA_EXC, LEMMA_RULES)
+        palabra = lemmatizer(word, u'NOUN')
+        palabra=palabra[0]
+    return palabra
+
 def compareWorAtr(word,atri):
     """
     It extracts all the characteristics (Atributes) of a word according to the meaning of the WordNet dictionary
     remove stopwords and add synonyms (update dictionary with other dictionary)
     Input: word, atribut (string)
     return: (boolean)
-    """    
+    """
     definitions=list(Word(word).definitions)
     lista=[]
     dic={}
@@ -216,31 +235,28 @@ def compareWorAtr(word,atri):
         lista=definition.split(' ')
         for palabra in lista:
             if palabra not in en_sw:
-                
+
                 #Meaning of a word (0)
-                palabra=Word(str(palabra).lower() )
-                palabra=palabra.lemmatize()
+                palabra=lemmatize_word(palabra)
                 #Insert in the dictionary
-                #if not(dic.has_key(palabra)):
-                if not(palabra in dic):#python3
+                if not(palabra in dic):
                     dic[palabra]=0
-                
+
                 #Meaning of a word of the word (1)
                 dicDef=wordDefinition(str(palabra))
                 dic.update(dicDef)
-                
+
                 #Lemma of the word of the word (2)
                 lemma=lemmalist(palabra)
                 #print lemma
                 dic.update(lemma)
-                
+
     #Synonyms of the main word (3)
     syn=synonym(str(word).lower())
     #Update main dictionary
     dic.update(syn)
     #print "len:",len(dic),"\nDicc:",dic
-    #return dic.has_key(atri)
-    return (atri in dic)#python3
+    return (atri in dic)
 
 def words_to_dictionary(search,words):
     """
@@ -271,20 +287,42 @@ def search_word_dictionary(search):
     """
     dic={}
     r=requests.get("http://www.dictionary.com/browse/"+search)
-    
+
     soup=BeautifulSoup(r.text, "html.parser")
-    results=soup.find("div",{"class":"source-data"})
+    results=soup.find("div",{"class":"css-8lgfcg e1iplpfw1"})
     if results != None:
-        all_info=results.findAll("section",{"class":"def-pbk ce-spot"})        
+        all_info=results.findAll("ol",{"css-zw8qdz e1hk9ate4"})
         for item in all_info:
-            line=item.findAll("div",{"class":"def-content"})
+            line=item.findAll("li",{"class":"css-2oywg7 e1q3nk1v3"})
             for element in line:
                 cad=element.get_text()
                 words=cad.split(' ')
                 if len(words)>0:
                     dic.update(words_to_dictionary(search,words))
     return dic
-            
+
+def search_word_thesaurus(search):
+    """
+    Search a word in thesaurus.com
+    Input: search (string)
+    Return: dic (dictionary)
+    """
+    dic={}
+    r=requests.get("https://www.thesaurus.com/browse/"+search)
+
+    soup=BeautifulSoup(r.text, "html.parser")
+    results=soup.find("section",{"class":"MainContentContainer css-7vy5fk e1h3b0ep0"})
+    if results != None:
+        all_info=results.findAll("ul",{"css-1lc0dpe et6tpn80"})
+        for item in all_info:
+            line=item.findAll("li")
+            for element in line:
+                cad=element.get_text()
+                words=cad.split(' ')
+                if len(words)>0:
+                    dic.update(words_to_dictionary(search,words))
+    return dic
+
 def search_word_wiki(search):
     """
     Search a word in en.wikipedia.org
@@ -302,29 +340,61 @@ def search_word_wiki(search):
                 dic.update(words_to_dictionary(search,words))
             level+=1
     return dic
-    
+
+def wordsV_to_vec(wordsV):
+    vec=[]
+    for words in wordsV:
+        wordsVec=words.split("_")
+        for word in wordsVec:
+            #vec.append(lemmatize_word(word))
+            vec.append(word)
+    return vec
+
+def search_word_sense2vec(search):
+    """
+    Search a word with sense2vec to return the most similar words of the search
+    Input: search (string)
+    Return: dic (dictionary)
+    """
+    wsearch=search+"|NOUN"
+    wordsV=[]
+    dic={}
+    try:
+        freq, vector = s2v[wsearch]
+        words, scores = s2v.most_similar(vector, n=900)
+        for word, score in zip(words, scores):
+            if (score > 0.5):
+                temp=word[0:-5]
+                wordsV.append(temp)
+        wordsV=wordsV_to_vec(wordsV)
+        dic=words_to_dictionary(search,wordsV)
+        return dic
+    except:
+        return dic
+
 def compare_word_feature(word,atri):
     """
-    It extracts all the characteristics (Atributes) of a word according to the meaning of the WordNet dictionary
+    It extracts all the characteristics (Atributes) of a word according to the meaning of the online dictionary, wiki and sense2vec
     Input: word, atribut (string)
     return: true or false (boolean)
     retunr: dictionary with word,atrib (dictionary)
     """
     features={}
-    features=search_word_dictionary(word)
-    features.update(search_word_wiki(word))
-    
+    #features=search_word_dictionary(word)
+    #features.update(search_word_thesaurus(word))
+    #features.update(search_word_wiki(word))
+    features.update(search_word_sense2vec(word))
+
     #print "len:",len(features),"\nDicc:",features
     #return features.has_key((word,atri)),features
     return ((word,atri) in features),features#python3
 
-
-def similaritySpyCy(word1,word2):        
+def similaritySpyCy(word1,word2):
     """
     Similarity between two words with Spicy
     Input: word1, word2 (String)
     Return: similarity (float)
-    """    
+    """
     tokens = nlp( (word1+" "+word2))
     #print tokens
     #print "Similarity Spacy:",tokens[0].similarity(tokens[1])
@@ -334,8 +404,8 @@ def similaritySpyCy(word1,word2):
     except:
         return False
     return False
-    
-    
+
+
 
 def main():
     starting_point = time.time()
@@ -350,17 +420,17 @@ def main():
     print ("elementos dicPos ",len(dicPos))
     print ("elementos dicNeg ",len(dicNeg))
     print ("Espere ...")
-    
+
     path="dataTrain/validation.txt"
     #path="dataTest/test_triples.txt" #original file
-    ruta="resultados.txt"
+    ruta="resultados-M1.2.0.p0.txt"
     try:
         file = open(path,"r")
         result=open(ruta,"w")
     except IOError:
         print ("There was an ERROR reading file")
         sys.exit()
-    
+
     archivo=[]
     for linea in file.readlines():
         line=linea.rstrip('\n').split(",")
@@ -372,50 +442,71 @@ def main():
     file.close()
     print ("\n>>> Archivo(test): ",path)
     print ("Numero de lineas",len(archivo))
-    
+
     print ("\nClasificando (esto puede tomar tiempo) ...\n")
-        
+
     for line in archivo:
-#        w1aPos=dicPos.has_key((line[0],line[2])) #python2
-#        w2aPos=dicPos.has_key((line[1],line[2]))
-#        w1aNeg=dicNeg.has_key((line[0],line[2]))
-#        w2aNeg=dicNeg.has_key((line[1],line[2]))
-        w1aPos=((line[0],line[2]) in dicPos) #python3
+        temp0=line[0]
+        temp1=line[1]
+        temp2=line[2]
+        line[0]=lemmatize_word(line[0])
+        line[1]=lemmatize_word(line[1])
+        line[2]=lemmatize_word(line[2])
+        
+        w1aPos=((line[0],line[2]) in dicPos)
         w2aPos=((line[1],line[2]) in dicPos)
         w1aNeg=((line[0],line[2]) in dicNeg)
         w2aNeg=((line[1],line[2]) in dicNeg)
-        
+
         #Find the meaning of the word in a dictionary
         if not(w1aPos):
-#            w1a=compareWorAtr(line[0],line[2])
-#            if not(w1a):
-                w1a=similaritySpyCy(line[0],line[2])
+            w1a=compareWorAtr(line[0],line[2])
+            #Search the word in WEB and update the variable and the dictionary
+            if not(w1a) and not((line[0]) in dicWeb):
+                w1a,features=compare_word_feature(line[0],line[2])
+                dicPos.update(features)
+                dicWeb[line[0]]=1
+                if not(w1a) and not((line[2]) in dicWeb):
+                    w1a,features=compare_word_feature(line[2],line[0])
+                    dicPos.update(features)
+                    dicWeb[line[2]]=1
+                    if not(w1a):
+                        w1a=similaritySpyCy(line[0],line[2])
         else:
             w1a=True
-        
+
         if not(w2aPos):
-#            w2a=compareWorAtr(line[1],line[2])
-#            if not(w2a):
-                w2a=similaritySpyCy(line[1],line[2])
+            w2a=compareWorAtr(line[1],line[2])
+            #Search the word in WEB and update the variable and the dictionary
+            if not(w2a) and not((line[1]) in dicWeb):
+                w2a,features=compare_word_feature(line[1],line[2])
+                dicPos.update(features)
+                dicWeb[line[1]]=1
+                if not(w2a) and not(line[2] in dicWeb):
+                    w2a,features=compare_word_feature(line[1],line[2])
+                    dicPos.update(features)
+                    dicWeb[line[1]]=1
+                    if not(w2a):
+                        w2a=similaritySpyCy(line[1],line[2])
         else:
             w2a=True
-    
+
         if w1aNeg or (w1aPos and w2aPos): #dictionary negative
             #dicNeg[line[0],line[2]].append(line[1])
-            result.write(str(line[0])+","+str(line[1])+","+str(line[2])+",0\n");
+            result.write(str(temp0)+","+str(temp1)+","+str(temp2)+",0\n");
         elif ((w1aPos and w2aNeg) or (w1aPos and not(w2a)) or (w1a and w2aNeg) or (w1a and not(w2a)) ):
             #dictionary positive
             if not(w1aPos): #inserta w1 en dicPos
                 dicPos[line[0],line[2]]=[line[1]]
             if not(w2aNeg): ##inserta w2 en dicNeg
                 dicNeg[line[1],line[2]]=[line[0]]
-            result.write(str(line[0])+","+str(line[1])+","+str(line[2])+",1\n");
+            result.write(str(temp0)+","+str(temp1)+","+str(temp2)+",1\n");
         else: #dictionary negative
             #dicNeg[line[0],line[2]]=[line[1]]
-            result.write(str(line[0])+","+str(line[1])+","+str(line[2])+",0\n");
+            result.write(str(temp0)+","+str(temp1)+","+str(temp2)+",0\n");
 
     result.close()
-                
+
     print ("\nDiccionarios Train y Test despues de clasificar")
     print ("elementos dicPos ",len(dicPos))
     print ("elementos dicNeg ",len(dicNeg))
@@ -423,6 +514,6 @@ def main():
     #print dicPos.keys()
     print ("\nPuede revisar el archivo de resultados en: ",ruta)
     print ("Execution Time: ",time.time()-starting_point)
-    
+
 if __name__ == "__main__":
     main()

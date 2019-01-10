@@ -1,0 +1,10 @@
+Execute the model_xxx.py out of this directory with dataTrain/
+
+example:
+
+dataTrain/
+model_xxx.py
+
+>python3 model_xxx.py
+
+because it need that organization files, in other case you edit the code in py files
