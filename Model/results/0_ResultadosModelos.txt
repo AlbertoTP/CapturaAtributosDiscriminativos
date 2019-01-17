@@ -374,7 +374,28 @@ lineas total Neg:  1358
 Execution Time:  0.0344460010529
 
 
->>>>>>>>>>>>>>>> 
+>>>>>>>>>>>>>>>> resultados-M1.3.1.txt
+Diccionarios Train y Test despues de clasificar
+elementos dicPos  1383045
+elementos dicNeg  15228
+Puede revisar el archivo de resultados en:  resultados-M1.3.1.txt
+Execution Time:  3230.829663991928
+
+Lineas Positivas  579
+Lineas Negativas  1169
+Lineas Acertadas  1748
+Total de lineas:  2722
+% Total Acertado  64.2174871418
+
+Lineas Erroneas Pos (1,0)  785
+Lineas Erroneas Neg (0,1)  189
+lineas Erroneas total  974
+Lineas total Pos:  1364
+lineas total Neg:  1358
+% Lineas Pos =  42.4486803519
+% Lineas Neg =  86.0824742268
+Execution Time:  0.0308229923248
+
 
 
 >>>>>>>>>>>>>>>>
